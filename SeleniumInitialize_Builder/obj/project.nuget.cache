@@ -1,12 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "su2X6bBxqLxC/li51Z85sNkUr9+W+DA+KAGmQLI0L4aE6nMKFIZpifYFEweH8PWKxMrXQXa4QmeP5Xeo/vQnOw==",
+  "dgSpecHash": "DPUdgWZpuzs=",
   "success": true,
-  "projectFilePath": "C:\\Users\\vezen\\source\\repos\\IWebDriverConfig\\SeleniumInitialize_Builder\\SeleniumInitialize_Builder.csproj",
+  "projectFilePath": "C:\\Users\\Alexey\\Source\\Repos\\ProjectSelenium\\SeleniumInitialize_Builder\\SeleniumInitialize_Builder.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\vezen\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512",
-    "C:\\Users\\vezen\\.nuget\\packages\\selenium.support\\4.17.0\\selenium.support.4.17.0.nupkg.sha512",
-    "C:\\Users\\vezen\\.nuget\\packages\\selenium.webdriver\\4.17.0\\selenium.webdriver.4.17.0.nupkg.sha512"
+    "C:\\Users\\Alexey\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512",
+    "C:\\Users\\Alexey\\.nuget\\packages\\selenium.support\\4.17.0\\selenium.support.4.17.0.nupkg.sha512",
+    "C:\\Users\\Alexey\\.nuget\\packages\\selenium.webdriver\\4.17.0\\selenium.webdriver.4.17.0.nupkg.sha512"
   ],
   "logs": []
 }

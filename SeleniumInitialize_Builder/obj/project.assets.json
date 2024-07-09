@@ -122,24 +122,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\vezen\\.nuget\\packages\\": {},
-    "U:\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\Alexey\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\vezen\\source\\repos\\IWebDriverConfig\\SeleniumInitialize_Builder\\SeleniumInitialize_Builder.csproj",
+      "projectUniqueName": "C:\\Users\\Alexey\\source\\repos\\ProjectSelenium\\SeleniumInitialize_Builder\\SeleniumInitialize_Builder.csproj",
       "projectName": "SeleniumInitialize_Builder",
-      "projectPath": "C:\\Users\\vezen\\source\\repos\\IWebDriverConfig\\SeleniumInitialize_Builder\\SeleniumInitialize_Builder.csproj",
-      "packagesPath": "C:\\Users\\vezen\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\vezen\\source\\repos\\IWebDriverConfig\\SeleniumInitialize_Builder\\obj\\",
+      "projectPath": "C:\\Users\\Alexey\\source\\repos\\ProjectSelenium\\SeleniumInitialize_Builder\\SeleniumInitialize_Builder.csproj",
+      "packagesPath": "C:\\Users\\Alexey\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Alexey\\source\\repos\\ProjectSelenium\\SeleniumInitialize_Builder\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "U:\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\vezen\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Users\\Alexey\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -160,6 +155,11 @@
         "warnAsError": [
           "NU1605"
         ]
+      },
+      "restoreAuditProperties": {
+        "enableAudit": "true",
+        "auditLevel": "low",
+        "auditMode": "direct"
       }
     },
     "frameworks": {
@@ -191,7 +191,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.202\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.302\\RuntimeIdentifierGraph.json"
       }
     }
   }
