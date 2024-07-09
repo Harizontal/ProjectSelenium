@@ -1,36 +1,56 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.DevTools.V119.DOMSnapshot;
 
 namespace SeleniumInitialize_Builder
 {
     public class SeleniumBuilder : IDisposable
     {
-        private IWebDriver WebDriver { get; set; }
-        public int Port { get; private set; }
-        public bool IsDisposed { get; private set; }
+        private IWebDriver? WebDriver { get; set; }
+        public int Port { get; private set; } = 9151;
+        public bool IsDisposed { get; private set; } = false;
         public List<string> ChangedArguments { get; private set; }
         public Dictionary<string, object> ChangedUserOptions { get; private set; }
         public TimeSpan Timeout { get; private set; }
-        public string StartingURL { get; private set; }
-        
+        public string StartingURL { get; private set; } = "https://www.google.com";
+
         public IWebDriver Build()
         {
-            //Создать экземпляр драйвера, присвоить получившийся результат переменной WebDriver, вернуть в качестве результата данного метода.
-            throw new NotImplementedException();
+            var service = ChromeDriverService.CreateDefaultService();
+            var options = new ChromeOptions();
+            service.Port = Port;
+            if (ChangedArguments != null)
+            {
+                options.AddArguments(ChangedArguments);
+            }
+
+            if (ChangedUserOptions != null)
+            {
+                foreach (var opt in ChangedUserOptions)
+                {
+                    options.AddAdditionalOption(opt.Key, opt.Value);
+                }
+            }
+            WebDriver = new ChromeDriver(service, options);
+            WebDriver.Manage().Timeouts().ImplicitWait = Timeout;
+            WebDriver.Navigate().GoToUrl(StartingURL);
+           return WebDriver;
         }
 
         public void Dispose()
         {
             //Закрыть браузер, очистить использованные ресурсы, по завершении переключить IsDisposed на состояние true
-            throw new NotImplementedException();
+            WebDriver?.Quit();
+            WebDriver?.Dispose();
+            IsDisposed = true;
         }
-        
+
         public SeleniumBuilder ChangePort(int port)
         {
             //Реализовать смену порта, на котором развёрнут IWebDriver для этого необходимо ознакомиться с классом DriverService соответствующего драйвера (ChromeDriverService для хрома)
             //Изменить свойство Port на тот порт, на который поменяли.
             //Builder в данном методе должен возвращать сам себя
+            Port = port;
+            return this;
             throw new NotImplementedException();
         }
 
@@ -39,22 +59,31 @@ namespace SeleniumInitialize_Builder
             //Реализовать добавление аргумента. При решении данной задаче ознакомитесь с классом Options соответствующего драйвера (ChromeOptions для браузера Chrome)
             //Все изменённые/добавленные аргументы необходимо отразить в свойстве СhangedArguments, которое перед этим нужно где-то будет проинициализировать.
             //Builder в данном методе должен возвращать сам себя
+            ChangedArguments ??= new List<string>();
+            ChangedArguments.Add(argument);
+            return this;
             throw new NotImplementedException();
         }
 
-        public SeleniumBuilder SetUserOption(string option, object value) 
+        public SeleniumBuilder SetUserOption(string option, object value)
         {
             //Реализовать добавление пользовательской настройки.
             //Все изменения сохранить в свойстве ChangedUserOptions
             //Builder в данном методе должен возвращать сам себя
-            throw new NotImplementedException(); 
+            ChangedUserOptions ??= new Dictionary<string, object>();
+            if (!ChangedUserOptions.ContainsKey(option))
+                ChangedUserOptions.Add(option, value);
+            return this;
+            throw new NotImplementedException();
         }
-        
+
         public SeleniumBuilder WithTimeout(TimeSpan timeout)
         {
             //Реализовать изменение изначального таймаута запускаемого браузера
             //Отслеживать изменения в свойстве Timeout
             //Builder возвращает себя
+            Timeout = timeout;
+            return this;
             throw new NotImplementedException();
         }
 
@@ -63,6 +92,8 @@ namespace SeleniumInitialize_Builder
             //Реализовать изменения изначального URL запускаемого браузера
             //Отслеживать изменения в строке StartingURL
             //Builder возвращает себя
+            StartingURL = url;
+            return this;
             throw new NotImplementedException();
         }
     }
