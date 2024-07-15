@@ -66,6 +66,21 @@ namespace SeleniumInitialize_Tests
             var processes = Process.GetProcessesByName("chromedriver.exe");
             Assert.IsFalse(processes.Any());
         }
+        [Test(Description = "Проверка запуска браузера в headless режима")]
+        public void HeadlessTest2()
+        {
+            IWebDriver driver = _builder.SetArgument("--headless").Build();
+            var processes = Process.GetProcessesByName("chromedriver.exe");
+            Assert.IsFalse(processes.Any());
+        }
+        [Test(Description = "Проверка запуска браузера в headless режима")]
+        public void HeadlessTest3()
+        {
+            IWebDriver driver = _builder.SetArgument("--headless").SetHeadless(true).Build();
+            Assert.IsTrue(_builder.IsHaedless);
+            var processes = Process.GetProcessesByName("chromedriver.exe");
+            Assert.IsFalse(processes.Any());
+        }
 
         [Test(Description = "Добавление пользовательской настройки")]
         public void UserOptionTest()
