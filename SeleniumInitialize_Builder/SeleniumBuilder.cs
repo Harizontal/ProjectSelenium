@@ -12,6 +12,7 @@ namespace SeleniumInitialize_Builder
         public Dictionary<string, object> ChangedUserOptions { get; private set; }
         public TimeSpan Timeout { get; private set; }
         public string StartingURL { get; private set; }
+        public bool IsHaedless { get; private set; }
 
         public IWebDriver Build()
         {
@@ -22,6 +23,8 @@ namespace SeleniumInitialize_Builder
                 service.Port = Port;
             if (ChangedArguments != null)
                 options.AddArguments(ChangedArguments);
+            if (IsHaedless)
+                options.AddArgument("--headless");
             if (ChangedUserOptions != null)
             {
                 foreach (var opt in ChangedUserOptions)
@@ -30,9 +33,9 @@ namespace SeleniumInitialize_Builder
                 }
             }
             WebDriver = new ChromeDriver(service, options);
+            WebDriver.Manage().Timeouts().ImplicitWait = Timeout;
             if (!string.IsNullOrEmpty(StartingURL))
                 WebDriver.Navigate().GoToUrl(StartingURL);
-            WebDriver.Manage().Timeouts().ImplicitWait = Timeout;
            return WebDriver;
         }
 
@@ -71,6 +74,12 @@ namespace SeleniumInitialize_Builder
             ChangedUserOptions ??= new Dictionary<string, object>();
             if (!ChangedUserOptions.ContainsKey(option))
                 ChangedUserOptions.Add(option, value);
+            return this;
+        }
+
+        public SeleniumBuilder SetHeadless(bool isHeadless)
+        {
+            IsHaedless = isHeadless;
             return this;
         }
 
