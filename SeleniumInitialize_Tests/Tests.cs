@@ -18,7 +18,6 @@ namespace SeleniumInitialize_Tests
         {
             IWebDriver driver = _builder.Build();
             Assert.IsNotNull(driver);
-            _builder.Dispose();
         }
 
         [Test(Description = "Проверка очистки ресурсов IWebDriver")]
@@ -28,7 +27,7 @@ namespace SeleniumInitialize_Tests
             Assert.IsFalse(_builder.IsDisposed);
             _builder.Dispose();
             Assert.IsTrue(_builder.IsDisposed);
-            var processes = Process.GetProcesses("chromedriver.exe");
+            var processes = Process.GetProcessesByName("chromedriver.exe");
             Assert.IsFalse(processes.Any());
         }
 
@@ -37,7 +36,6 @@ namespace SeleniumInitialize_Tests
         {
             IWebDriver driver = _builder.ChangePort(3737).Build();
             Assert.That(_builder.Port, Is.EqualTo(3737));
-            _builder.Dispose();
         }
 
         [Test(Description = "Проверка смены порта на случайный")]
@@ -46,7 +44,6 @@ namespace SeleniumInitialize_Tests
             int port = new Random().Next(6000, 32000);
             IWebDriver driver = _builder.ChangePort(port).Build();
             Assert.That(_builder.Port, Is.EqualTo(port));
-            _builder.Dispose();
 
         }
 
@@ -59,7 +56,6 @@ namespace SeleniumInitialize_Tests
             var startingSize = driver.Manage().Window.Size;
             driver.Manage().Window.Maximize();
             Assert.That(driver.Manage().Window.Size, Is.EqualTo(startingSize));
-            _builder.Dispose();
 
         }
 
@@ -70,7 +66,6 @@ namespace SeleniumInitialize_Tests
             IWebDriver driver = _builder.SetUserOption(key, true).Build();
             Assert.That(_builder.ChangedUserOptions.ContainsKey(key));
             Assert.That(_builder.ChangedUserOptions[key], Is.True);
-            _builder.Dispose();
 
         }
 
@@ -83,7 +78,6 @@ namespace SeleniumInitialize_Tests
                 .Build();
             Assert.That(_builder.ChangedUserOptions.ContainsKey(key));
             Assert.That(_builder.ChangedUserOptions[key], Is.True);
-            _builder.Dispose();
 
         }
 
@@ -94,7 +88,6 @@ namespace SeleniumInitialize_Tests
             IWebDriver driver = _builder.WithTimeout(timeout).Build();
             Assert.That(driver.Manage().Timeouts().ImplicitWait, Is.EqualTo(timeout));
             Assert.That(_builder.Timeout, Is.EqualTo(timeout));
-            _builder.Dispose();
 
         }
 
@@ -105,7 +98,6 @@ namespace SeleniumInitialize_Tests
             IWebDriver driver = _builder.WithURL(url).Build();
             Assert.That(driver.Url, Is.EqualTo(url));
             Assert.That(_builder.StartingURL, Is.EqualTo(url));
-            _builder.Dispose();
 
         }
 
@@ -133,8 +125,15 @@ namespace SeleniumInitialize_Tests
                 Assert.That(_builder.ChangedUserOptions.ContainsKey(key));
                 Assert.That(_builder.ChangedUserOptions[key], Is.True);
             });
-            _builder.Dispose();
 
         }
+
+
+        [TearDown]
+        public void Dispose()
+        {
+            _builder.Dispose();
+        }
+
     }
 }
