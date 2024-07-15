@@ -5,24 +5,23 @@ namespace SeleniumInitialize_Builder
 {
     public class SeleniumBuilder : IDisposable
     {
-        private IWebDriver? WebDriver { get; set; }
-        public int Port { get; private set; } = 9151;
-        public bool IsDisposed { get; private set; } = false;
+        private IWebDriver WebDriver { get; set; }
+        public int Port { get; private set; }
+        public bool IsDisposed { get; private set; }
         public List<string> ChangedArguments { get; private set; }
         public Dictionary<string, object> ChangedUserOptions { get; private set; }
         public TimeSpan Timeout { get; private set; }
-        public string StartingURL { get; private set; } = "https://www.google.com";
+        public string StartingURL { get; private set; }
 
         public IWebDriver Build()
         {
             var service = ChromeDriverService.CreateDefaultService();
             var options = new ChromeOptions();
-            service.Port = Port;
+            // Возможность настроить порт
+            if(Port != default)
+                service.Port = Port;
             if (ChangedArguments != null)
-            {
                 options.AddArguments(ChangedArguments);
-            }
-
             if (ChangedUserOptions != null)
             {
                 foreach (var opt in ChangedUserOptions)
@@ -31,8 +30,9 @@ namespace SeleniumInitialize_Builder
                 }
             }
             WebDriver = new ChromeDriver(service, options);
+            if (!string.IsNullOrEmpty(StartingURL))
+                WebDriver.Navigate().GoToUrl(StartingURL);
             WebDriver.Manage().Timeouts().ImplicitWait = Timeout;
-            WebDriver.Navigate().GoToUrl(StartingURL);
            return WebDriver;
         }
 
@@ -51,7 +51,6 @@ namespace SeleniumInitialize_Builder
             //Builder в данном методе должен возвращать сам себя
             Port = port;
             return this;
-            throw new NotImplementedException();
         }
 
         public SeleniumBuilder SetArgument(string argument)
@@ -62,7 +61,6 @@ namespace SeleniumInitialize_Builder
             ChangedArguments ??= new List<string>();
             ChangedArguments.Add(argument);
             return this;
-            throw new NotImplementedException();
         }
 
         public SeleniumBuilder SetUserOption(string option, object value)
@@ -74,7 +72,6 @@ namespace SeleniumInitialize_Builder
             if (!ChangedUserOptions.ContainsKey(option))
                 ChangedUserOptions.Add(option, value);
             return this;
-            throw new NotImplementedException();
         }
 
         public SeleniumBuilder WithTimeout(TimeSpan timeout)
@@ -84,7 +81,6 @@ namespace SeleniumInitialize_Builder
             //Builder возвращает себя
             Timeout = timeout;
             return this;
-            throw new NotImplementedException();
         }
 
         public SeleniumBuilder WithURL(string url)
@@ -94,7 +90,6 @@ namespace SeleniumInitialize_Builder
             //Builder возвращает себя
             StartingURL = url;
             return this;
-            throw new NotImplementedException();
         }
     }
 }
