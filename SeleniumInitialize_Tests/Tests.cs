@@ -62,7 +62,7 @@ namespace SeleniumInitialize_Tests
         public void HeadlessTest1()
         {
             IWebDriver driver = _builder.SetHeadless(true).Build();
-            Assert.IsTrue(_builder.IsHaedless);
+            Assert.IsTrue(_builder.IsHeadless);
             var processes = Process.GetProcessesByName("chromedriver.exe");
             Assert.IsFalse(processes.Any());
         }
@@ -70,6 +70,7 @@ namespace SeleniumInitialize_Tests
         public void HeadlessTest2()
         {
             IWebDriver driver = _builder.SetArgument("--headless").Build();
+            Assert.IsTrue(_builder.IsHeadless);
             var processes = Process.GetProcessesByName("chromedriver.exe");
             Assert.IsFalse(processes.Any());
         }
@@ -77,7 +78,7 @@ namespace SeleniumInitialize_Tests
         public void HeadlessTest3()
         {
             IWebDriver driver = _builder.SetArgument("--headless").SetHeadless(true).Build();
-            Assert.IsTrue(_builder.IsHaedless);
+            Assert.IsTrue(_builder.IsHeadless);
             var processes = Process.GetProcessesByName("chromedriver.exe");
             Assert.IsFalse(processes.Any());
         }
