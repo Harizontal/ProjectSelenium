@@ -23,7 +23,7 @@ namespace SeleniumInitialize_Builder
                 service.Port = Port;
             if (ChangedArguments != null)
                 options.AddArguments(ChangedArguments);
-            if (IsHaedless)
+            if (IsHaedless && !options.Arguments.Any(arg => arg == "--headless"))
                 options.AddArgument("--headless");
             if (ChangedUserOptions != null)
             {
@@ -99,6 +99,6 @@ namespace SeleniumInitialize_Builder
             //Builder возвращает себя
             StartingURL = url;
             return this;
-        }
+        }   
     }
 }
