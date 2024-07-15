@@ -58,6 +58,14 @@ namespace SeleniumInitialize_Tests
             Assert.That(driver.Manage().Window.Size, Is.EqualTo(startingSize));
 
         }
+        [Test(Description = "Проверка запуска браузера в headless режима")]
+        public void HeadlessTest1()
+        {
+            IWebDriver driver = _builder.SetHeadless(true).Build();
+            Assert.IsTrue(_builder.IsHaedless);
+            var processes = Process.GetProcessesByName("chromedriver.exe");
+            Assert.IsFalse(processes.Any());
+        }
 
         [Test(Description = "Добавление пользовательской настройки")]
         public void UserOptionTest()
