@@ -61,7 +61,7 @@ namespace SeleniumInitialize_Tests
         [Test(Description = "Проверка запуска браузера в headless режима")]
         public void HeadlessTest1()
         {
-            IWebDriver driver = _builder.SetHeadless(true).Build();
+            IWebDriver driver = _builder.EditHeadless().Build();
             Assert.IsTrue(_builder.IsHeadless);
             var processes = Process.GetProcessesByName("chromedriver.exe");
             Assert.IsFalse(processes.Any());
@@ -77,7 +77,7 @@ namespace SeleniumInitialize_Tests
         [Test(Description = "Проверка запуска браузера в headless режима")]
         public void HeadlessTest3()
         {
-            IWebDriver driver = _builder.SetArgument("--headless").SetHeadless(true).Build();
+            IWebDriver driver = _builder.SetArgument("--headless").EditHeadless().Build();
             Assert.IsTrue(_builder.IsHeadless);
             var processes = Process.GetProcessesByName("chromedriver.exe");
             Assert.IsFalse(processes.Any());
