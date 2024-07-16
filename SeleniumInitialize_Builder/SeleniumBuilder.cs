@@ -12,7 +12,11 @@ namespace SeleniumInitialize_Builder
         public Dictionary<string, object> ChangedUserOptions { get; private set; }
         public TimeSpan Timeout { get; private set; }
         public string StartingURL { get; private set; }
-        public bool IsHeadless { get; private set; }
+        public bool IsHeadless 
+        {   
+            get 
+            { return ChangedArguments != null && ChangedArguments.Contains("--headless"); } 
+        }
 
         public IWebDriver Build()
         {
@@ -61,8 +65,6 @@ namespace SeleniumInitialize_Builder
             //Builder в данном методе должен возвращать сам себя
             ChangedArguments ??= new List<string>();
             ChangedArguments.Add(argument);
-            if(argument == "--headless")
-                IsHeadless = true;
             return this;
         }
 
@@ -77,13 +79,12 @@ namespace SeleniumInitialize_Builder
             return this;
         }
 
-        public SeleniumBuilder SetHeadless(bool isHeadless)
+        public SeleniumBuilder SetHeadless()
         {
-            if (isHeadless)
-            {
+            if (IsHeadless)
+                ChangedArguments?.Remove("--headless");
+            else
                 ChangedArguments = ChangedArguments?.Append("--headless").ToList() ?? new List<string> { "--headless" };
-                IsHeadless = true;
-            }
             return this;
         }
 
