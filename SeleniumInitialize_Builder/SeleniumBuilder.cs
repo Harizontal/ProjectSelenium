@@ -82,9 +82,9 @@ namespace SeleniumInitialize_Builder
         public SeleniumBuilder EditHeadless()
         {
             if (IsHeadless)
-                ChangedArguments = ChangedArguments?.Append("--headless").ToList() ?? new List<string> { "--headless" };
-            else
                 ChangedArguments?.Remove("--headless");
+            else
+                ChangedArguments = ChangedArguments?.Append("--headless").ToList() ?? new List<string> { "--headless" };
             return this;
         }
 
