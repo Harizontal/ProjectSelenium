@@ -1,5 +1,7 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Support.UI;
+using SeleniumExtras.WaitHelpers;
 
 namespace SeleniumInitialize_Builder
 {
@@ -12,10 +14,10 @@ namespace SeleniumInitialize_Builder
         public Dictionary<string, object> ChangedUserOptions { get; private set; }
         public TimeSpan Timeout { get; private set; }
         public string StartingURL { get; private set; }
-        public bool IsHeadless 
-        {   
-            get 
-            { return ChangedArguments != null && ChangedArguments.Contains("--headless"); } 
+        public bool IsHeadless
+        {
+            get
+            { return ChangedArguments != null && ChangedArguments.Contains("--headless"); }
         }
 
         public IWebDriver Build()
@@ -23,7 +25,7 @@ namespace SeleniumInitialize_Builder
             var service = ChromeDriverService.CreateDefaultService();
             var options = new ChromeOptions();
             // Возможность настроить порт
-            if(Port != default)
+            if (Port != default)
                 service.Port = Port;
             if (ChangedArguments != null)
                 options.AddArguments(ChangedArguments);
@@ -38,7 +40,7 @@ namespace SeleniumInitialize_Builder
             WebDriver.Manage().Timeouts().ImplicitWait = Timeout;
             if (!string.IsNullOrEmpty(StartingURL))
                 WebDriver.Navigate().GoToUrl(StartingURL);
-           return WebDriver;
+            return WebDriver;
         }
 
         public void Dispose()
@@ -104,6 +106,31 @@ namespace SeleniumInitialize_Builder
             //Builder возвращает себя
             StartingURL = url;
             return this;
+        }
+        /// <summary>
+        /// Преобразует RGBA форммат в HEX
+        /// </summary>
+        /// <returns>Преобразованная строка в формате HEX</returns>
+        public string RgbaToHex(string rgbaColor)
+        {
+            rgbaColor = rgbaColor.Substring(5, rgbaColor.Length - 6);
+            string[] parts = rgbaColor.Split(',');
+
+            int red = int.Parse(parts[0].Trim());
+            int green = int.Parse(parts[1].Trim());
+            int blue = int.Parse(parts[2].Trim());
+
+            return string.Format("#{0:X2}{1:X2}{2:X2}", red, green, blue);
+        }
+        /// <summary>
+        /// Метод для ожидание загрузки страницы
+        /// </summary>
+        public void WaitForPageLoad()
+        {
+            Thread.Sleep(500);
+            new WebDriverWait(WebDriver, TimeSpan.FromSeconds(5))
+                 .Until(ExpectedConditions
+                 .ElementIsVisible(By.XPath("//body/descendant::*[last()]")));
         }
     }
 }
