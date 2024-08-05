@@ -107,30 +107,9 @@ namespace SeleniumInitialize_Builder
             StartingURL = url;
             return this;
         }
-        /// <summary>
-        /// Преобразует RGBA форммат в HEX
-        /// </summary>
-        /// <returns>Преобразованная строка в формате HEX</returns>
-        public string RgbaToHex(string rgbaColor)
-        {
-            rgbaColor = rgbaColor.Substring(5, rgbaColor.Length - 6);
-            string[] parts = rgbaColor.Split(',');
 
-            int red = int.Parse(parts[0].Trim());
-            int green = int.Parse(parts[1].Trim());
-            int blue = int.Parse(parts[2].Trim());
-
-            return string.Format("#{0:X2}{1:X2}{2:X2}", red, green, blue);
-        }
-        /// <summary>
-        /// Метод для ожидание загрузки страницы
-        /// </summary>
-        public void WaitForPageLoad()
-        {
-            Thread.Sleep(500);
-            new WebDriverWait(WebDriver, TimeSpan.FromSeconds(5))
-                 .Until(ExpectedConditions
-                 .ElementIsVisible(By.XPath("//body/descendant::*[last()]")));
+        public IWebDriver GetLastWebDriver() {
+            return WebDriver;
         }
     }
 }

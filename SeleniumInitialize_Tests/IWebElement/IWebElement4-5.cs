@@ -8,34 +8,30 @@ namespace SeleniumInitialize_Tests.IWebElement
 {
     public class IWebElement4 : TestBaseSetUp
     {
-        [Test]
+        [Test(Description = "C ожиданием состояний элементов.")]
         public void WaitStatusElements()
         {
-            var driver = Builder.WithURL("https://ib.psbank.ru/store/products/military-family-mortgage-program").Build();
-            driver.Manage().Window.Maximize();
+            var driver = Builder.WithURL("https://ib.psbank.ru/store/products/military-family-mortgage-program").SetArgument("--start-maximized").Build();
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
+            var button = By.XPath("//*[contains(text(), 'Заполнить без Госуслуг')]/ancestor::button");
             wait.Until(ExpectedConditions.InvisibilityOfElementLocated(By.XPath("//psb-loader-icon[contains(@class, 'ng-tns-c97-19')]")));
-            wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//button[contains(@class, 'mortgage-calculator-output-submit__button')][2]"))).Click();
+            wait.Until(ExpectedConditions.ElementToBeClickable(button)).Click();
             Assert.That(wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//div[contains(@class, 'mortgage-calculator-output__alert') and contains(@class, 'mortgage-calculator-output__alert_show')]"))).Text, 
             Is.EqualTo("Оформление заявки станет доступным после заполнения обязательных полей"));
-            wait.Until(ExpectedConditions.InvisibilityOfElementLocated(By.XPath("//button[contains(@class, 'mortgage-calculator-output-submit__button')][2]")));
-            wait.Until(ExpectedConditions.InvisibilityOfElementLocated(By.XPath("//div[contains(@class, 'mortgage-calculator-output__alert') and contains(@class, 'mortgage-calculator-output__alert_show')]")));
-            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//button[contains(@class, 'mortgage-calculator-output-submit__button')][2]")));
+            wait.Until(ExpectedConditions.ElementToBeClickable(button));
         }
-        [Test]
-        public void WaitStatusElements2()
+        [Test(Description = "C ожиданием состояний изменений состояний после взаимодействия со свитчером")]
+        public void WaitStatusInteractionsSwitcher()
         {
-
-            var driver = Builder.WithURL("https://ib.psbank.ru/store/products/classic-mortgage-program").Build();
-            driver.Manage().Window.Maximize();
-            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10000));
-            var listSwitcher = wait.Until(b => b.FindElements(By.XPath("//div[@class='deltas__list']/descendant::label[@class='switcher']")).ToList());
-            var listPsbStatus = wait.Until(b => b.FindElements(By.XPath("//psb-status")).ToList());
+            var driver = Builder.WithURL("https://ib.psbank.ru/store/products/classic-mortgage-program").SetArgument("--start-maximized").Build();
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
+            var listSwitcher = wait.Until(driver => driver.FindElements(By.XPath("//div[@class='deltas__list']/descendant::label[@class='switcher']")).ToList());
+            var listPsbStatus = wait.Until(driver => driver.FindElements(By.XPath("//div[contains(@class, 'deltas__list')]/descendant::psb-status")).ToList());
             for (int i = 0; i < listPsbStatus.Count; i++)
             {
                 if (listPsbStatus[i].GetAttribute("class").Contains("_success"))
                     listSwitcher[i].Click();
-                wait.Until(d => !listPsbStatus[i].GetAttribute("class").Contains("_success"));
+                wait.Until(driver => !listPsbStatus[i].GetAttribute("class").Contains("_success"));
             }
         }
 
