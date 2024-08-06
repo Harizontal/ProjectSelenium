@@ -24,6 +24,9 @@ namespace SeleniumInitialize_Tests
                  .Until(ExpectedConditions
                  .ElementIsVisible(By.XPath("//body/descendant::*[last()]")));
         }
+        /// <summary>
+        /// Метод создаёт скриншот экрана страницы при падение теста
+        /// </summary>
         public void TackeScreenshot()
         {
             if ((TestContext.CurrentContext.Result.Outcome == ResultState.Failure) ||
@@ -32,6 +35,23 @@ namespace SeleniumInitialize_Tests
                 var screenshot = ((ITakesScreenshot)_builder.GetLastWebDriver()).GetScreenshot();
                 screenshot.SaveAsFile(@"C:\Users\Alexey\source\repos\ProjectSelenium\SeleniumInitialize_Tests\Failed.png");
             }
+        }
+        /// <summary>
+        /// Метод переключает на выбранную вкладку по индексу
+        /// </summary>
+        public void SwitchToTab(int index)
+        {
+            var driver = _builder.GetLastWebDriver();
+            driver.SwitchTo().Window(driver.WindowHandles[index]);
+        }
+        /// <summary>
+        /// Метод закрывает текущую вкладку и переключается по последнему дескриптору
+        /// </summary>
+        public void Close()
+        {
+            var driver = _builder.GetLastWebDriver();
+            driver.Close();
+            driver.SwitchTo().Window(driver.WindowHandles[driver.WindowHandles.Count - 1]);
         }
     }
 }

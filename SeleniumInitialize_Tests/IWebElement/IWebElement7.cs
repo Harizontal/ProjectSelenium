@@ -8,8 +8,8 @@ namespace SeleniumInitialize_Tests.IWebElement
 {
     public class IWebElement7 : TestBaseSetUp
     {
-        [Test(Description = "Проверка наведением мыши с помощью Actions")]// Придумать название для метода и для второго
-        public void WaitStatusElements()
+        [Test(Description = "Проверка наведение мыши на кнопку с помощью Actions")]
+        public void CheckHoverElementActions()
         {
             var driver = Builder.WithURL("https://ib.psbank.ru/store/products/classic-mortgage-program").SetArgument("--start-maximized").Build();
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
@@ -21,7 +21,7 @@ namespace SeleniumInitialize_Tests.IWebElement
             Assert.That(Helper.RgbaToHex(btnGosusslugi.GetCssValue("background-color")), Is.EqualTo("#D44921"));
         }
         [Test(Description = "Проверка корректной работы слайдера с помощью Actions")]
-        public void WaitStatusElements2()
+        public void CheckCorrectOperationSlider()
         {
             var driver = Builder.WithURL("https://ib.psbank.ru/store/products/classic-mortgage-program").SetArgument("--start-maximized").Build();
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));

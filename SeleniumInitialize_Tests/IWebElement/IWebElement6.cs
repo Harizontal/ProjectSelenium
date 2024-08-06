@@ -10,7 +10,7 @@ namespace SeleniumInitialize_Tests.IWebElement
     public class IWebElement6 : TestBaseSetUp
     {
         [Test(Description = "Проверка состояние кнопки при заполнения формы")]
-        public void WaitStatusElements()
+        public void CheckStatusByFillingForm()
         {
             var driver = Builder.WithURL("https://ib.psbank.ru/store/products/classic-mortgage-program").SetArgument("--start-maximized").Build();
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
@@ -28,7 +28,6 @@ namespace SeleniumInitialize_Tests.IWebElement
                 var birthday = driver.FindElement(By.XPath("//input[@data-mat-calendar='mat-datepicker-1']"));
                 var phone = driver.FindElement(By.XPath("//*[@id='formly_23_input_Phone_0']"));
                 var email = driver.FindElement(By.XPath("//input[@name='Email']"));
-                var list = driver.FindElements(By.XPath("//rtl-formly-field-select[@class='ng-star-inserted']")).ToList();
                 sureName.SendKeys("Иванов");
                 name.SendKeys("Иван");
                 fatherland.SendKeys("Иванович");
@@ -39,14 +38,14 @@ namespace SeleniumInitialize_Tests.IWebElement
                 phone.SendKeys("9321231212");
                 email.SendKeys("email@mail.ru");
                 wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//*[@id=\"formly_28_select-with-double-item_OfficeId_0\"]"))).Click();
-                wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//div[@role='listbox']/mat-option"))).Click();
-                wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//*[contains(text(), ' Гражданство  ')]/ancestor::rtl-formly-field-select"))).Click();
-                driver.FindElement(By.XPath("//*[@id='formly_27_select_RussianFederationResident_0-panel']/mat-option")).Click();
-                wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//*[contains(text(), ' Официальное трудоустройство  ')]/ancestor::rtl-formly-field-select"))).Click();
-                driver.FindElement(By.XPath("//*[@id='formly_27_select_RussianEmployment_1-panel']/mat-option")).Click();
-                driver.FindElement(By.XPath("//*[@id='formly_30_checkbox_PersonalDataProcessingAgreementConcent_0']")).Click();
-                driver.FindElement(By.XPath("//*[@id='formly_32_checkbox_BkiRequestAgreementConcent_0']")).Click();
-                driver.FindElement(By.XPath("//*[@id='formly_34_checkbox_PromotionAgreementConcent_0']")).Click();
+                wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//div[@role='listbox']/mat-option"))).Click();
+                wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//*[contains(text(), ' Гражданство  ')]/ancestor::rtl-formly-field-select"))).Click();
+                wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//*[@id='formly_27_select_RussianFederationResident_0-panel']/mat-option"))).Click();
+                wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//*[contains(text(), ' Официальное трудоустройство  ')]/ancestor::rtl-formly-field-select"))).Click();
+                wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//*[@id='formly_27_select_RussianEmployment_1-panel']/mat-option"))).Click();
+                wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//*[@id='formly_30_checkbox_PersonalDataProcessingAgreementConcent_0']"))).Click();
+                wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//*[@id='formly_32_checkbox_BkiRequestAgreementConcent_0']"))).Click();
+                wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//*[@id='formly_34_checkbox_PromotionAgreementConcent_0']"))).Click();
                 Assert.That(btnRegistrationNext.Enabled, Is.True);
             }
             else
