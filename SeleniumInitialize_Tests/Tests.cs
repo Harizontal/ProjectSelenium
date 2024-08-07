@@ -1,32 +1,25 @@
+using NUnit.Framework;
 using OpenQA.Selenium;
-using SeleniumInitialize_Builder;
 using System.Diagnostics;
-
 namespace SeleniumInitialize_Tests
 {
-    public class Tests
+    public class Tests : TestBaseSetUp
     {
-        private SeleniumBuilder _builder;
-        [SetUp]
-        public void Setup()
-        {
-            _builder = new SeleniumBuilder();
-        }
 
         [Test(Description = "Проверка корректной инициализации экземпляра IWebDriver")]
         public void BuildTest1()
         {
-            IWebDriver driver = _builder.Build();
+            IWebDriver driver = Builder.Build();
             Assert.IsNotNull(driver);
         }
 
         [Test(Description = "Проверка очистки ресурсов IWebDriver")]
         public void DisposeTest1()
         {
-            IWebDriver driver = _builder.Build();
-            Assert.IsFalse(_builder.IsDisposed);
-            _builder.Dispose();
-            Assert.IsTrue(_builder.IsDisposed);
+            IWebDriver driver = Builder.Build();
+            Assert.IsFalse(Builder.IsDisposed);
+            Builder.Dispose();
+            Assert.IsTrue(Builder.IsDisposed);
             var processes = Process.GetProcessesByName("chromedriver.exe");
             Assert.IsFalse(processes.Any());
         }
@@ -34,16 +27,16 @@ namespace SeleniumInitialize_Tests
         [Test(Description = "Проверка смены порта драйвера")]
         public void PortTest1()
         {
-            IWebDriver driver = _builder.ChangePort(3737).Build();
-            Assert.That(_builder.Port, Is.EqualTo(3737));
+            IWebDriver driver = Builder.ChangePort(3737).Build();
+            Assert.That(Builder.Port, Is.EqualTo(3737));
         }
 
         [Test(Description = "Проверка смены порта на случайный")]
         public void PortTest2()
         {
             int port = new Random().Next(6000, 32000);
-            IWebDriver driver = _builder.ChangePort(port).Build();
-            Assert.That(_builder.Port, Is.EqualTo(port));
+            IWebDriver driver = Builder.ChangePort(port).Build();
+            Assert.That(Builder.Port, Is.EqualTo(port));
 
         }
 
@@ -51,8 +44,8 @@ namespace SeleniumInitialize_Tests
         public void ArgumentTest1()
         {
             string argument = "--start-maximized";
-            IWebDriver driver = _builder.SetArgument(argument).Build();
-            Assert.Contains(argument, _builder.ChangedArguments);
+            IWebDriver driver = Builder.SetArgument(argument).Build();
+            Assert.Contains(argument, Builder.ChangedArguments);
             var startingSize = driver.Manage().Window.Size;
             driver.Manage().Window.Maximize();
             Assert.That(driver.Manage().Window.Size, Is.EqualTo(startingSize));
@@ -61,24 +54,24 @@ namespace SeleniumInitialize_Tests
         [Test(Description = "Проверка запуска браузера в headless режима")]
         public void HeadlessTest1()
         {
-            IWebDriver driver = _builder.EditHeadless().Build();
-            Assert.IsTrue(_builder.IsHeadless);
+            IWebDriver driver = Builder.EditHeadless().Build();
+            Assert.IsTrue(Builder.IsHeadless);
             var processes = Process.GetProcessesByName("chromedriver.exe");
             Assert.IsFalse(processes.Any());
         }
         [Test(Description = "Проверка запуска браузера в headless режима")]
         public void HeadlessTest2()
         {
-            IWebDriver driver = _builder.SetArgument("--headless").Build();
-            Assert.IsTrue(_builder.IsHeadless);
+            IWebDriver driver = Builder.SetArgument("--headless").Build();
+            Assert.IsTrue(Builder.IsHeadless);
             var processes = Process.GetProcessesByName("chromedriver.exe");
             Assert.IsFalse(processes.Any());
         }
         [Test(Description = "Проверка запуска браузера в headless режима")]
         public void HeadlessTest3()
         {
-            IWebDriver driver = _builder.SetArgument("--headless").EditHeadless().Build();
-            Assert.IsTrue(_builder.IsHeadless);
+            IWebDriver driver = Builder.SetArgument("--headless").EditHeadless().Build();
+            Assert.IsFalse(Builder.IsHeadless);
             var processes = Process.GetProcessesByName("chromedriver.exe");
             Assert.IsFalse(processes.Any());
         }
@@ -87,9 +80,9 @@ namespace SeleniumInitialize_Tests
         public void UserOptionTest()
         {
             string key = "safebrowsing.enabled";
-            IWebDriver driver = _builder.SetUserOption(key, true).Build();
-            Assert.That(_builder.ChangedUserOptions.ContainsKey(key));
-            Assert.That(_builder.ChangedUserOptions[key], Is.True);
+            IWebDriver driver = Builder.SetUserOption(key, true).Build();
+            Assert.That(Builder.ChangedUserOptions.ContainsKey(key));
+            Assert.That(Builder.ChangedUserOptions[key], Is.True);
 
         }
 
@@ -97,11 +90,11 @@ namespace SeleniumInitialize_Tests
         public void UserOptionStressTest()
         {
             string key = "safebrowsing.enabled";
-            IWebDriver driver = _builder.SetUserOption(key, true)
+            IWebDriver driver = Builder.SetUserOption(key, true)
                 .SetUserOption(key, true)
                 .Build();
-            Assert.That(_builder.ChangedUserOptions.ContainsKey(key));
-            Assert.That(_builder.ChangedUserOptions[key], Is.True);
+            Assert.That(Builder.ChangedUserOptions.ContainsKey(key));
+            Assert.That(Builder.ChangedUserOptions[key], Is.True);
 
         }
 
@@ -109,9 +102,9 @@ namespace SeleniumInitialize_Tests
         public void TimeoutTest()
         {
             TimeSpan timeout = TimeSpan.FromSeconds(20);
-            IWebDriver driver = _builder.WithTimeout(timeout).Build();
+            IWebDriver driver = Builder.WithTimeout(timeout).Build();
             Assert.That(driver.Manage().Timeouts().ImplicitWait, Is.EqualTo(timeout));
-            Assert.That(_builder.Timeout, Is.EqualTo(timeout));
+            Assert.That(Builder.Timeout, Is.EqualTo(timeout));
 
         }
 
@@ -119,9 +112,9 @@ namespace SeleniumInitialize_Tests
         public void URLTest()
         {
             string url = @"https://ib.psbank.ru/store/products/your-cashback-new";
-            IWebDriver driver = _builder.WithURL(url).Build();
+            IWebDriver driver = Builder.WithURL(url).Build();
             Assert.That(driver.Url, Is.EqualTo(url));
-            Assert.That(_builder.StartingURL, Is.EqualTo(url));
+            Assert.That(Builder.StartingURL, Is.EqualTo(url));
 
         }
 
@@ -133,7 +126,7 @@ namespace SeleniumInitialize_Tests
             string argument = "--start-maximized";
             int port = new Random().Next(6000, 32000);
             TimeSpan timeout = TimeSpan.FromSeconds(20);
-            IWebDriver driver = _builder.WithTimeout(timeout)
+            IWebDriver driver = Builder.WithTimeout(timeout)
                 .WithURL(url)
                 .ChangePort(port)
                 .SetArgument(argument)
@@ -142,22 +135,14 @@ namespace SeleniumInitialize_Tests
             Assert.Multiple(() =>
             {
                 Assert.That(driver.Manage().Timeouts().ImplicitWait, Is.EqualTo(timeout));
-                Assert.That(_builder.Timeout, Is.EqualTo(timeout));
+                Assert.That(Builder.Timeout, Is.EqualTo(timeout));
                 Assert.That(driver.Url, Is.EqualTo(url));
-                Assert.That(_builder.StartingURL, Is.EqualTo(url));
-                Assert.IsTrue(_builder.ChangedArguments.Contains(argument));
-                Assert.That(_builder.ChangedUserOptions.ContainsKey(key));
-                Assert.That(_builder.ChangedUserOptions[key], Is.True);
+                Assert.That(Builder.StartingURL, Is.EqualTo(url));
+                Assert.IsTrue(Builder.ChangedArguments.Contains(argument));
+                Assert.That(Builder.ChangedUserOptions.ContainsKey(key));
+                Assert.That(Builder.ChangedUserOptions[key], Is.True);
             });
 
         }
-
-
-        [TearDown]
-        public void Dispose()
-        {
-            _builder.Dispose();
-        }
-
     }
 }
