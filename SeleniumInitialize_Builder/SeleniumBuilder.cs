@@ -1,7 +1,6 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Support.UI;
-using SeleniumExtras.WaitHelpers;
+using SeleniumInitialize_Tests;
 
 namespace SeleniumInitialize_Builder
 {
@@ -24,7 +23,6 @@ namespace SeleniumInitialize_Builder
         {
             var service = ChromeDriverService.CreateDefaultService();
             var options = new ChromeOptions();
-            // Возможность настроить порт
             if (Port != default)
                 service.Port = Port;
             if (ChangedArguments != null)
@@ -108,8 +106,14 @@ namespace SeleniumInitialize_Builder
             return this;
         }
 
-        public IWebDriver GetLastWebDriver() {
+        public IWebDriver GetLastWebDriver()
+        {
             return WebDriver;
+        }
+
+        public Browser GetBrowser()
+        {
+            return new Browser(WebDriver ?? throw new InvalidOperationException("WebDriver is null."));
         }
     }
 }

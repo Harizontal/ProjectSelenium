@@ -1,18 +1,14 @@
-﻿using NUnit.Framework;
-using NUnit.Framework.Interfaces;
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
-using SeleniumExtras.WaitHelpers;
-using SeleniumInitialize_Builder;
 
 namespace SeleniumInitialize_Tests
 {
     public class Browser
     {
-        private SeleniumBuilder _builder;
-        public Browser(SeleniumBuilder builder)
+        private IWebDriver _driver;
+        public Browser(IWebDriver driver)
         {
-            _builder = builder;
+            _driver = driver;
         }
         /// <summary>
         /// Метод для ожидание загрузки страницы
@@ -20,38 +16,36 @@ namespace SeleniumInitialize_Tests
         public void WaitForPageLoad()
         {
             Thread.Sleep(500);
-            new WebDriverWait(_builder.GetLastWebDriver(), TimeSpan.FromSeconds(5))
+            new WebDriverWait(_driver, TimeSpan.FromSeconds(5))
                  .Until(ExpectedConditions
-                 .ElementIsVisible(By.XPath("//body/descendant::*[last()]")));
+                 .InvisibilityOfElementLocated(By.XPath("//div[@id='rui-icon-sprite-container']")));
         }
         /// <summary>
         /// Метод создаёт скриншот экрана страницы при падение теста
         /// </summary>
         public void TackeScreenshot()
         {
-            if ((TestContext.CurrentContext.Result.Outcome == ResultState.Failure) ||
-            (TestContext.CurrentContext.Result.Outcome == ResultState.Error))
-            {
-                var screenshot = ((ITakesScreenshot)_builder.GetLastWebDriver()).GetScreenshot();
-                screenshot.SaveAsFile(@"C:\Users\Alexey\source\repos\ProjectSelenium\SeleniumInitialize_Tests\Failed.png");
-            }
+            var screenshot = ((ITakesScreenshot)_driver).GetScreenshot();
+            var timeStamp = DateTime.Now.ToString("yyyyMMdd_HHmmss");
+            var fileName = $"Failed_{timeStamp}.png";
+            var relativePath = Path.Combine("Screenshot", fileName);
+            Directory.CreateDirectory(Path.GetDirectoryName(relativePath));
+            screenshot.SaveAsFile(relativePath);
         }
         /// <summary>
         /// Метод переключает на выбранную вкладку по индексу
         /// </summary>
         public void SwitchToTab(int index)
         {
-            var driver = _builder.GetLastWebDriver();
-            driver.SwitchTo().Window(driver.WindowHandles[index]);
+            _driver.SwitchTo().Window(_driver.WindowHandles[index]);
         }
         /// <summary>
         /// Метод закрывает текущую вкладку и переключается по последнему дескриптору
         /// </summary>
         public void Close()
         {
-            var driver = _builder.GetLastWebDriver();
-            driver.Close();
-            driver.SwitchTo().Window(driver.WindowHandles[driver.WindowHandles.Count - 1]);
+            _driver.Close();
+            _driver.SwitchTo().Window(_driver.WindowHandles[_driver.WindowHandles.Count - 1]);
         }
     }
 }

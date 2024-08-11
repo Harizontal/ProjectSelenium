@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using OpenQA.Selenium;
+using SeleniumInitialize_Builder;
 
 namespace SeleniumInitialize_Tests.IWebElement
 {
