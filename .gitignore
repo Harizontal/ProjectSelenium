@@ -362,3 +362,6 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 /SeleniumInitialize_Tests/NavigationTo
+/SeleniumInitialize_Tests/SeleniumInitialize_Tests.csproj
+/SeleniumInitialize_Builder/SeleniumInitialize_Builder.csproj
+/SeleniumInitialize_Builder/SeleniumInitialize_Builder.csproj
