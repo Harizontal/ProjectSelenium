@@ -1,5 +1,6 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using SeleniumInitialize_Tests;
 
 namespace SeleniumInitialize_Builder
 {
@@ -12,18 +13,17 @@ namespace SeleniumInitialize_Builder
         public Dictionary<string, object> ChangedUserOptions { get; private set; }
         public TimeSpan Timeout { get; private set; }
         public string StartingURL { get; private set; }
-        public bool IsHeadless 
-        {   
-            get 
-            { return ChangedArguments != null && ChangedArguments.Contains("--headless"); } 
+        public bool IsHeadless
+        {
+            get
+            { return ChangedArguments != null && ChangedArguments.Contains("--headless"); }
         }
 
         public IWebDriver Build()
         {
             var service = ChromeDriverService.CreateDefaultService();
             var options = new ChromeOptions();
-            // Возможность настроить порт
-            if(Port != default)
+            if (Port != default)
                 service.Port = Port;
             if (ChangedArguments != null)
                 options.AddArguments(ChangedArguments);
@@ -38,7 +38,7 @@ namespace SeleniumInitialize_Builder
             WebDriver.Manage().Timeouts().ImplicitWait = Timeout;
             if (!string.IsNullOrEmpty(StartingURL))
                 WebDriver.Navigate().GoToUrl(StartingURL);
-           return WebDriver;
+            return WebDriver;
         }
 
         public void Dispose()
@@ -104,6 +104,16 @@ namespace SeleniumInitialize_Builder
             //Builder возвращает себя
             StartingURL = url;
             return this;
+        }
+
+        public IWebDriver GetLastWebDriver()
+        {
+            return WebDriver;
+        }
+
+        public Browser GetBrowser()
+        {
+            return new Browser(WebDriver ?? throw new InvalidOperationException("WebDriver is null."));
         }
     }
 }
