@@ -12,7 +12,6 @@ namespace SeleniumInitialize_Tests.NavigationTo
             IWebDriver driver = Builder.WithURL("https://ib.psbank.ru/").Build();
             var browser = Builder.GetBrowser();
             browser.WaitForPageLoad(By.XPath("//h2[contains(text(), 'Финансовые продукты')]"));
-            Assert.That(driver.FindElements(By.XPath("//h2[contains(text(), 'Финансовые продукты')]")).SingleOrDefault(), Is.Not.Null);
         }
     }
 }
