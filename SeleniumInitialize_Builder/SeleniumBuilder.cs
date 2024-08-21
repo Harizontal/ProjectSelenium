@@ -1,6 +1,5 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
-using SeleniumInitialize_Tests;
 
 namespace SeleniumInitialize_Builder
 {
@@ -38,6 +37,7 @@ namespace SeleniumInitialize_Builder
             WebDriver.Manage().Timeouts().ImplicitWait = Timeout;
             if (!string.IsNullOrEmpty(StartingURL))
                 WebDriver.Navigate().GoToUrl(StartingURL);
+
             return WebDriver;
         }
 

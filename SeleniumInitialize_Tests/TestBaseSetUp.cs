@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using NUnit.Framework.Interfaces;
 using SeleniumInitialize_Builder;
 
 namespace SeleniumInitialize_Tests
@@ -16,7 +17,9 @@ namespace SeleniumInitialize_Tests
         [TearDown]
         public void Dispose()
         {
-            Browser.TackeScreenshot();
+            if ((TestContext.CurrentContext.Result.Outcome == ResultState.Failure) ||
+            (TestContext.CurrentContext.Result.Outcome == ResultState.Error))
+                Builder.GetBrowser().TackeScreenshot();
             Builder.Dispose();
         }
     }

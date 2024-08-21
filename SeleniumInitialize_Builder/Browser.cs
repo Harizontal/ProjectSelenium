@@ -1,7 +1,8 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
+using SeleniumExtras.WaitHelpers;
 
-namespace SeleniumInitialize_Tests
+namespace SeleniumInitialize_Builder
 {
     public class Browser
     {
@@ -13,12 +14,12 @@ namespace SeleniumInitialize_Tests
         /// <summary>
         /// Метод для ожидание загрузки страницы
         /// </summary>
-        public void WaitForPageLoad()
+        public void WaitForPageLoad(By element)
         {
             Thread.Sleep(500);
             new WebDriverWait(_driver, TimeSpan.FromSeconds(5))
                  .Until(ExpectedConditions
-                 .InvisibilityOfElementLocated(By.XPath("//div[@id='rui-icon-sprite-container']")));
+                 .ElementIsVisible(element));
         }
         /// <summary>
         /// Метод создаёт скриншот экрана страницы при падение теста
@@ -26,11 +27,17 @@ namespace SeleniumInitialize_Tests
         public void TackeScreenshot()
         {
             var screenshot = ((ITakesScreenshot)_driver).GetScreenshot();
-            var timeStamp = DateTime.Now.ToString("yyyyMMdd_HHmmss");
+            var timeStamp = DateTime.Now.ToString("yyyy_dd_MM_HH_mm");
             var fileName = $"Failed_{timeStamp}.png";
             var relativePath = Path.Combine("Screenshot", fileName);
-            Directory.CreateDirectory(Path.GetDirectoryName(relativePath));
+            if(!Directory.Exists(relativePath))
+                Directory.CreateDirectory(Path.GetDirectoryName(relativePath));
             screenshot.SaveAsFile(relativePath);
+        }
+
+        public void OpenTab(string URL)
+        {
+            ((IJavaScriptExecutor)_driver).ExecuteScript($"window.open('" + URL + "')");
         }
         /// <summary>
         /// Метод переключает на выбранную вкладку по индексу
