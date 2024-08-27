@@ -17,7 +17,7 @@ namespace SeleniumInitialize_Tests.IWebElement
             Assert.That(Helper.RgbaToHex(btnGosusslugi.GetCssValue("background-color")), Is.EqualTo("#F26126"));
             Actions actions = new Actions(driver);
             actions.MoveToElement(btnGosusslugi).Perform();
-            Thread.Sleep(100);
+            Thread.Sleep(700);
             Assert.That(Helper.RgbaToHex(btnGosusslugi.GetCssValue("background-color")), Is.EqualTo("#D44921"));
         }
         [Test(Description = "Проверка корректной работы слайдера с помощью Actions")]

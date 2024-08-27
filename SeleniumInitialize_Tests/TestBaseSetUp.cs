@@ -19,7 +19,7 @@ namespace SeleniumInitialize_Tests
         {
             if ((TestContext.CurrentContext.Result.Outcome == ResultState.Failure) ||
             (TestContext.CurrentContext.Result.Outcome == ResultState.Error))
-                Builder.GetBrowser().TackeScreenshot();
+                Builder.Browser.TackeScreenshot();
             Builder.Dispose();
         }
     }

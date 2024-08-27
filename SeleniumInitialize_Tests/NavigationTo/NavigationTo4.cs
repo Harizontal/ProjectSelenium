@@ -1,8 +1,8 @@
 ﻿using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
-using System.Text.RegularExpressions;
 using SeleniumExtras.WaitHelpers;
+using System.Text.RegularExpressions;
 
 
 namespace SeleniumInitialize_Tests.NavigationTo
@@ -13,7 +13,7 @@ namespace SeleniumInitialize_Tests.NavigationTo
         public void TransitionInsideLinkElement()
         {
             var driver = Builder.WithURL("https://ib.psbank.ru/store/products/consumer-loan").Build();
-            var browser = Builder.GetBrowser();
+            var browser = Builder.Browser;
             Regex reg = new Regex(@"Генеральная лицензия на осуществление банковских операций № (\d+)\s+от\s+(\d{2}\s+\w+\s+\d{4})");
             var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
 

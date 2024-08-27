@@ -1,6 +1,5 @@
 ﻿using NUnit.Framework;
 using OpenQA.Selenium;
-using SeleniumInitialize_Builder;
 
 namespace SeleniumInitialize_Tests.NavigationTo
 {
@@ -10,7 +9,7 @@ namespace SeleniumInitialize_Tests.NavigationTo
         public void HomePageLoadsSuccessfully()
         {
             IWebDriver driver = Builder.WithURL("https://ib.psbank.ru/").Build();
-            var browser = Builder.GetBrowser();
+            var browser = Builder.Browser;
             browser.WaitForPageLoad(By.XPath("//h2[contains(text(), 'Финансовые продукты')]"));
         }
     }
