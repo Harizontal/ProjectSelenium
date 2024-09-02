@@ -11,7 +11,7 @@ namespace SeleniumInitialize_Tests.NavigationTo
         public void HomePageLoadsSuccessfully()
         {
             var driver = Builder.WithURL("https://ib.psbank.ru/").Build();
-            var browser = Builder.GetBrowser();
+            var browser = Builder.Browser;
             var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
 
             browser.WaitForPageLoad(By.XPath("//h2[text()='Финансовые продукты']"));

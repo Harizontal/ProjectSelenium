@@ -12,6 +12,7 @@ namespace SeleniumInitialize_Builder
         public Dictionary<string, object> ChangedUserOptions { get; private set; }
         public TimeSpan Timeout { get; private set; }
         public string StartingURL { get; private set; }
+        public Browser Browser { get; private set; }
         public bool IsHeadless
         {
             get
@@ -22,6 +23,8 @@ namespace SeleniumInitialize_Builder
         {
             var service = ChromeDriverService.CreateDefaultService();
             var options = new ChromeOptions();
+            options.AddUserProfilePreference("download.default_directory", @"C:\Downloads");
+            options.AddUserProfilePreference("plugins.always_open_pdf_externally", true);
             if (Port != default)
                 service.Port = Port;
             if (ChangedArguments != null)
@@ -37,7 +40,7 @@ namespace SeleniumInitialize_Builder
             WebDriver.Manage().Timeouts().ImplicitWait = Timeout;
             if (!string.IsNullOrEmpty(StartingURL))
                 WebDriver.Navigate().GoToUrl(StartingURL);
-
+            Browser = new Browser(WebDriver);
             return WebDriver;
         }
 
@@ -104,16 +107,6 @@ namespace SeleniumInitialize_Builder
             //Builder возвращает себя
             StartingURL = url;
             return this;
-        }
-
-        public IWebDriver GetLastWebDriver()
-        {
-            return WebDriver;
-        }
-
-        public Browser GetBrowser()
-        {
-            return new Browser(WebDriver ?? throw new InvalidOperationException("WebDriver is null."));
         }
     }
 }

@@ -16,7 +16,7 @@ namespace SeleniumInitialize_Tests.IWebElement
             var mortgageCalculator = By.XPath("//div[contains(@class, 'mortgage-calculator-output__alert') and contains(@class, 'mortgage-calculator-output__alert_show')]");
             wait.Until(ExpectedConditions.InvisibilityOfElementLocated(By.XPath("//psb-loader-icon[contains(@class, 'ng-tns-c97-19')]")));
             wait.Until(ExpectedConditions.ElementToBeClickable(button)).Click();
-            Assert.That(wait.Until(ExpectedConditions.ElementIsVisible(mortgageCalculator)).Text, 
+            Assert.That(wait.Until(ExpectedConditions.ElementIsVisible(mortgageCalculator)).Text,
             Is.EqualTo("Оформление заявки станет доступным после заполнения обязательных полей"));
             wait.Until(driver => driver.FindElement(button).GetAttribute("class").Contains("cdk-focused cdk-mouse-focused"));
             wait.Until(ExpectedConditions.InvisibilityOfElementLocated(mortgageCalculator));

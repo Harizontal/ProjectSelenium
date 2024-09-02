@@ -1,8 +1,8 @@
 ﻿using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
-using System.Text.RegularExpressions;
 using SeleniumExtras.WaitHelpers;
+using System.Text.RegularExpressions;
 
 namespace SeleniumInitialize_Tests.NavigationTo
 {
