@@ -1,13 +1,6 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
-using SeleniumExtras.WaitHelpers;
-using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace SeleniumInitialize_Builder.ControlElements
 {
@@ -28,6 +21,7 @@ namespace SeleniumInitialize_Builder.ControlElements
         public void SetDateOfBirth(string dateOfBirth)
         {
             var wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(5));
+            _driver.FindElement(By.XPath("//rui-datepicker[.//*[contains(@class,'mat-datepicker-input')]]//rui-icon")).Click();
             string[] dateParts = dateOfBirth.Split('.');
             string day = dateParts[0];
             string month = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(int.Parse(dateParts[1])).Substring(0, 3).ToUpper();
@@ -39,8 +33,7 @@ namespace SeleniumInitialize_Builder.ControlElements
 
         private void SetValueDate(string time)
         {
-            // Проверка на ненайденный элемент
-            var ListTime = _datePikcer.FindElements(By.XPath(".//td[contains(@class,'mat-calendar-body-cell')]"));
+            var ListTime = _driver.FindElements(By.XPath("//td[contains(@class,'mat-calendar-body-cell')]"));
             var targetYearElement = ListTime.FirstOrDefault(e => e.Text.Contains(time));
             if (targetYearElement != null)
                 targetYearElement.Click();
