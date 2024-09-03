@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using iText.Kernel.Pdf;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
@@ -55,9 +56,21 @@ namespace SeleniumInitialize_Tests.ControlElements
             browser.WaitForPageLoad(By.XPath("//h2[contains(text(),'Заявка на карту')]"));
             var LastNameInput = driver.FindElement(By.XPath("//input[@name='CardHolderLastName']"));
             var dropDownList = new DropDownList(driver, LastNameInput);
-            dropDownList.ChangeValueDropDownList("Пу", "Пушкин");
+            dropDownList.SelectValueByTyping("Пу", "Пушкин");
             var valueInputLastName = driver.FindElement(By.XPath("//input[@name='CardHolderLastName']")).GetAttribute("value");
             Assert.That(valueInputLastName, Is.EqualTo("Пушкин"));
+        }
+        [Test(Description = "Проверка выбора значения из выпадающего списка")]
+        public void ChangeValueFromDropDownListe()
+        {
+            var driver = Builder.WithURL("https://ib.psbank.ru/store/products/your-cashback-new").SetArgument("--start-maximized").Build();
+            var browser = Builder.Browser;
+
+            browser.WaitForPageLoad(By.XPath("//h2[contains(text(),'Заявка на карту')]"));
+            var LastNameInput = driver.FindElement(By.XPath("//mat-select[@name='RussianFederationResident']"));
+            var dropDownList = new DropDownList(driver, LastNameInput);
+            dropDownList.SelectValueByClicking("РФ");
+            Assert.That(dropDownList.GetValueDropDownList(), Is.EqualTo("РФ"));
         }
 
         [Test(Description = "Проверка установки даты с помощью DatePicker")]

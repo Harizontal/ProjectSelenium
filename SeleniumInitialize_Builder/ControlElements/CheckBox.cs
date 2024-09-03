@@ -16,15 +16,15 @@ namespace SeleniumInitialize_Builder.ControlElements
         /// <summary>
         /// Метод выбора и смены категорий
         /// </summary>
-        /// Упростить взаимодейтсвие
         public void SetCategory(string nameCategory)
-        {
-            Click(_driver.FindElement(By.XPath($"//*[./*[contains(text(),'{nameCategory}')]]//input")));
+        {   
+            _driver.ExecuteJavaScript("arguments[0].click()", 
+            _driver.FindElement(By.XPath($"//*[./*[contains(text(),'{nameCategory}')]]//input")));
         }
 
-        public void Click(IWebElement element)
+        public void Click()
         {
-            _driver.ExecuteJavaScript("arguments[0].click()", element);
+            _driver.ExecuteJavaScript("arguments[0].click()", _checkBox);
         }
     }
 }

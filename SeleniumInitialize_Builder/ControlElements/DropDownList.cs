@@ -1,6 +1,7 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
+using System.Globalization;
 
 namespace SeleniumInitialize_Builder.ControlElements
 {
@@ -14,17 +15,35 @@ namespace SeleniumInitialize_Builder.ControlElements
             _dropDownList = dropDownList;
 
         }
-        public void ChangeValueDropDownList(string value, string dropDownValue = null)
+        public void SelectValueByTyping(string value, string dropDownValue = null)
+        {
+            _dropDownList.SendKeys(value);
+            var wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(5));
+            var visible = _driver.FindElements(By.XPath("//div[@role='listbox']/mat-option")).LongCount() > 0;
+            var textInfo = new CultureInfo("ru-RU").TextInfo;
+            if (visible)
+            {
+                var listOptions = _driver.FindElements(By.XPath("//div[@role='listbox']/mat-option")).ToList();
+                dropDownValue ??= listOptions.First(list => list.Text.Contains(textInfo.ToTitleCase(textInfo.ToLower(value))))?.Text;
+                listOptions.First(list => list.Text.Contains(dropDownValue)).Click();
+            }
+        }
+        public void SelectValueByClicking(string value = null)
         {
             var wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(5));
-            _dropDownList.SendKeys(value);
-            var listOptions = wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(By.XPath("//div[contains(@class,'mat-autocomplete-panel')]/mat-option")));
-            dropDownValue ??= listOptions.First(list => list.Text.Contains(value)).Text;
-            listOptions.First(list => list.Text.Contains(dropDownValue)).Click();
+            _dropDownList.Click();
+            var listOptions = wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(By.XPath("//div[@role='listbox']/mat-option")));
+            var optionToSelect = value != null
+            ? listOptions.First(list => list.Text.Contains(value))
+            : listOptions.FirstOrDefault();
+            optionToSelect.Click();
         }
+
         public string GetValueDropDownList()
         {
-            return _dropDownList.GetAttribute("value");
+            if (_dropDownList.TagName == "input")
+                return _dropDownList.GetAttribute("value");
+            return _dropDownList.GetAttribute("textContent");
         }
     }
 }
